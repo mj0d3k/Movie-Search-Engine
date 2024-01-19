@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+    'search_engine',]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
