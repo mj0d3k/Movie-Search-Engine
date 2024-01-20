@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from search_engine.views import TestView
+from search_engine.views import TestView, MovieSearchView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test_view/', TestView.as_view(), name='test_view'),
+    path('movie_search/', MovieSearchView.as_view(), name='movie_search'),
 ]
