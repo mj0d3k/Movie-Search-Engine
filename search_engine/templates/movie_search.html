@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+</head>
+<body>
+    <h1>Movie Search</h1>
+
+    <form method="post" action="{% url 'movie_search' %}">
+        {% csrf_token %}
+        <label for="user_query">Wpisz zapytanie dotyczące filmu:</label>
+        <input type="text" name="user_query" id="user_query" required>
+        <button type="submit">Szukaj</button>
+    </form>
+
+    {% if user_query %}
+        <h2>Wyszukiwanie dla: {{ user_query }}</h2>
+        {% if results %}
+            <ul>
+                {% for movie in results %}
+                    <li>{{ movie.title }} - Score: {{ movie.score }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Brak wyników.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
