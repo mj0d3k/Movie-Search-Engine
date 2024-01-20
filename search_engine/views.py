@@ -84,12 +84,10 @@ class TestView(View):
         query = query.lower()
         query_kgrams = self.kgrams(query, k)
 
-        # Sprawdź, czy dokładne dopasowanie istnieje
         for movie in movies:
             if query in movie.values():
                 return query
 
-        # Zbieranie potencjalnych korekt
         potential_corrections = []
         for movie in movies:
             for key, value in movie.items():
@@ -106,7 +104,6 @@ class TestView(View):
                     if similarity >= threshold:
                         potential_corrections.append((item, similarity))
 
-        # Wybór najlepszej korekty
         if potential_corrections:
             return max(potential_corrections, key=lambda x: x[1])[0]
 
@@ -183,7 +180,7 @@ class MovieSearchView(View):
     def post(self, request, *args, **kwargs):
         user_query = request.POST.get('user_query', '').strip()
 
-        movies = list(Test.objects.all())  # Konwertuj QuerySet na listę
+        movies = list(Test.objects.all())
 
         vectorizer, tfidf_matrix = self.calculate_tfidf_weights(movies)
 
