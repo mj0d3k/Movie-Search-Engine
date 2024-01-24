@@ -1,15 +1,16 @@
+from django.shortcuts import render, get_object_or_404
+from django.views import View
+from .models import Movie
+from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy as np
+
+
 ### CREATING BASE HTML ###
 
 
 def base_view(request):
     return render(request, 'base.html')
 
-
-from django.shortcuts import render
-from django.views import View
-from .models import Movie
-from sklearn.feature_extraction.text import TfidfVectorizer
-import numpy as np
 
 class MovieSearchView(View):
     template_name = 'view1.html'
@@ -103,3 +104,67 @@ class MovieSearchView(View):
         }
 
         return render(request, self.template_name, context)
+
+
+from django.views import View
+from django.shortcuts import render, get_object_or_404
+from .models import Movie
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import time
+import json
+
+class MovieInfoView(View):
+    def get(self, request, wikidata_id):
+        movie = get_object_or_404(Movie, wikidata_id=wikidata_id)
+        clickstream_data = self.fetch_clickstream_data(movie.title)
+
+        clickstream_json = json.dumps(clickstream_data, ensure_ascii=False)
+
+        return render(request, 'view2.html', {
+            'movie': movie, 
+            'clickstream_data': clickstream_data,
+            'clickstream_json': clickstream_json
+        })
+
+    def fetch_clickstream_data(self, movie_title):
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--ignore-ssl-errors=yes')
+        chrome_options.add_argument('--ignore-certificate-errors')
+
+        with webdriver.Chrome(options=chrome_options) as driver:
+            data = self.fetch_data_for_movie(movie_title, driver)
+        return data
+
+    def fetch_data_for_movie(self, movie_title, driver):
+        url = self.create_url(movie_title)
+        driver.get(url)
+        time.sleep(10)
+
+        data_elements = driver.find_elements("xpath", "//div[@data-tag='allowRowEvents']")
+        extracted_data = []
+        for i in range(0, len(data_elements), 6):
+            source = data_elements[i].text
+            views = data_elements[i + 2].text
+            percentage = data_elements[i + 4].text
+
+            if source and source not in ["other-search", "empty-search", "other-empty", "other-external", "other-internal", movie_title]:
+                link = self.create_wikipedia_link(source)
+                extracted_data.append({
+                    "label": source,
+                    "views": views,
+                    "percentage": percentage,
+                    "link": link
+                })
+
+        return extracted_data
+
+    def create_url(self, movie_title):
+        formatted_title = movie_title.replace(' ', '_')
+        return f"https://wikinav.toolforge.org/?language=en&title={formatted_title}"
+
+    def create_wikipedia_link(self, text):
+        formatted_text = text.replace(' ', '_')
+        return f"https://en.wikipedia.org/wiki/{formatted_text}"
+

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
+    <button onclick="history.back()">Back</button>
+    <title>{{ movie.title }}</title>
+</head>
+<body>
+    <h1>{{ movie.title }}</h1>
+    <p><strong>Director:</strong> {{ movie.director }}</p>
+    <p><strong>Cast:</strong> {{ movie.cast }}</p>
+    <p><strong>Country:</strong> {{ movie.country }}</p>
+    <p><strong>Duration:</strong> {{ movie.duration }}</p>
+    <p><strong>Description:</strong> {{ movie.description }}</p>
+    <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+    <p><strong>Review Score:</strong> {{ movie.review_score }}</p>
+    
+    {% if movie.rotten_tomatoes_id %}
+        <p><a href="https://www.rottentomatoes.com/m/{{ movie.rotten_tomatoes_id }}">Rotten Tomatoes Link</a></p>
+    {% endif %}
+    
+    {% if movie.freebase_id %}
+        <p><a href="https://trends.google.com/trends/explore?q=%2Fm%2F{{ movie.freebase_id|slice:'3:' }}&date=now%201-d&geo=PL&hl=en">Google Trends Link</a></p>
+    {% endif %}
+    
+    <p><a href="{{ movie.wikipedia_link }}">Wikipedia Link</a></p>
+
+    <h2>Related Clickstream Data</h2>
+    <ul>
+        {% for item in clickstream_data %}
+        <li><a href="{{ item.link }}">{{ item.label }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <div id="main" style="width: 600px; height:600px;"></div>
+
+
+    <script>
+        var clickstreamData = JSON.parse('{{ clickstream_json|safe|escapejs }}');
+
+        var labels = clickstreamData.map(item => item.label);
+        var views = clickstreamData.map(item => parseInt(item.views));
+
+        var myChart = echarts.init(document.getElementById('main'));
+
+        clickstreamData.sort(function(a, b) {
+            return b.views - a.views;
+        });
+
+        var labels = clickstreamData.map(item => item.label);
+        var views = clickstreamData.map(item => parseInt(item.views));
+
+        var option = {
+            xAxis: {
+                type: 'category',
+                data: labels,
+                axisLabel: {
+                    rotate: 45,
+                    interval: 0,
+                    textStyle: {
+                        fontSize: 10
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            series: [{
+                data: views,
+                type: 'bar',
+                barMaxWidth: '50%',
+                itemStyle: {
+                    color: '#DB9F18'
+                },
+                label: {
+                    show: true,
+                    position: 'top'
+                }
+            }],
+            grid: {
+                bottom: '20%',
+                left: '10%',
+                right: '10%',
+                containLabel: true
+            }
+        };
+
+
+        myChart.setOption(option);
+    </script>
+
+</body>
+</html>
