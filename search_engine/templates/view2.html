@@ -16,7 +16,7 @@
     <p><strong>Review Score:</strong> {{ movie.review_score }}</p>
     
     {% if movie.rotten_tomatoes_id %}
-        <p><a href="https://www.rottentomatoes.com/m/{{ movie.rotten_tomatoes_id }}">Rotten Tomatoes Link</a></p>
+        <p><a href="https://www.rottentomatoes.com/{{ movie.rotten_tomatoes_id }}">Rotten Tomatoes Link</a></p>
     {% endif %}
     
     {% if movie.freebase_id %}

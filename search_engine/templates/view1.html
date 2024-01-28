@@ -19,10 +19,13 @@
             width: 100%;
             height: 100%;
             background-color: #75736A;
+            background-image: url('https://images.pexels.com/photos/7991436/pexels-photo-7991436.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
             position: fixed;
             top: 0;
             left: 0;
             z-index: -1;
+            background-size: cover;
+            opacity: 0.9;
         }
         .outer-scratch, .inner-scratch {
             height: inherit;
@@ -142,6 +145,7 @@
             font-family: 'Saira Condensed';
             font-size: 20px;
             margin-top: 0;
+            color: #DB9F18;
         }
 
 
@@ -197,10 +201,12 @@
                 height: 60vh;
                 width: 50vw;
                 overflow-y: auto;
+                color: #fff
             }
         
         a {
                 color:#DB9F18;
+                text-decoration: none;
             }
 
 
@@ -387,7 +393,7 @@
 
         {% csrf_token %}
         <h1>MOVIE MAGNET</h1>
-        <p class="about">Discover and explore movies with Movie Magnet.</p>
+        <p class="about">BLA BLA BLA BLA </p>
         <div class="wrap">
             <div class="search">
                <input type="text" class="searchTerm"  name="user_query" placeholder="Say something">
@@ -405,7 +411,7 @@
         <ul>
             {% for movie, score in results %}
                 <li>
-                    <h2><a href="/movie-info/{{ movie.wikidata_id }}">{{ movie.title }}</a></h2>
+                    <h2><a href="/info/{{ movie.wikidata_id }}">{{ movie.title }}</a></h2>
                     <p class="results"><strong>Duration:</strong> {{ movie.duration }}</p>
                     <p class="results"><strong>Date:</strong> {{ movie.release_date }}</p>
                     <p class="results">{{ movie.description }}</p>
