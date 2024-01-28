@@ -141,12 +141,6 @@
             margin-bottom: -0.5%;
         }
 
-        .about {
-            font-family: 'Saira Condensed';
-            font-size: 20px;
-            margin-top: 0;
-            color: #DB9F18;
-        }
 
 
         .search {
@@ -160,21 +154,23 @@
             border: 3px solid #DB9F18;
             border-right: none;
             padding: 5px;
-            height: 25px;
+            height: 50px;
             border-radius: 5px 0 0 5px;
             outline: none;
             color: #000;
             font-family: 'Saira Condensed';
+            font-size: large;
             border-radius: 10px 0 0 10px; 
         }
 
         .searchTerm:focus{
             color: #DB9F18;
+            font-size: 110%;
         }
 
         .searchButton {
             width: 40px;
-            height: 40px;
+            height: 66px;
             border: 1px solid #DB9F18;
             background: #DB9F18 ;
             text-align: center;
@@ -187,7 +183,7 @@
         .wrap{
             width: 20%;
             position: absolute;
-            top: 25%;
+            top: 20%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
@@ -195,13 +191,14 @@
         .content {
                 position: absolute;
                 text-align: left;
-                top: 40%;
+                top: 35%;
                 left: 50%;
                 transform: translate(-50%, -10%);
-                height: 60vh;
-                width: 50vw;
+                height: 70vh;
+                width: 70vw;
                 overflow-y: auto;
-                color: #fff
+                color: #fff;
+                font-size: 1.3em;
             }
         
         a {
@@ -393,7 +390,6 @@
 
         {% csrf_token %}
         <h1>MOVIE MAGNET</h1>
-        <p class="about">BLA BLA BLA BLA </p>
         <div class="wrap">
             <div class="search">
                <input type="text" class="searchTerm"  name="user_query" placeholder="Say something">
@@ -414,6 +410,7 @@
                     <h2><a href="/info/{{ movie.wikidata_id }}">{{ movie.title }}</a></h2>
                     <p class="results"><strong>Duration:</strong> {{ movie.duration }}</p>
                     <p class="results"><strong>Date:</strong> {{ movie.release_date }}</p>
+                    <p class="results"><strong>Score:</strong> {{ movie.review_score }}</p>
                     <p class="results">{{ movie.description }}</p>
                 </li>
             {% endfor %}
