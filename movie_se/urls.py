@@ -16,7 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from search_engine.views import MovieSearchView, MovieInfoView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('movie_search/', MovieSearchView.as_view(), name='movie_search'),
+    path('', MovieSearchView.as_view(), name='view1'),
+    path('info/<str:wikidata_id>/', MovieInfoView.as_view(), name='view2'),
+    #path('tfidf/', TfidfView.as_view(), name='tfidf'),
 ]
