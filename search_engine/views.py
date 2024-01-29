@@ -269,17 +269,17 @@ class MovieSearchView(View):
 
 
 class MovieInfoView(View):
-    def get(self, request, wikidata_id):
-        movie = get_object_or_404(Movie, wikidata_id=wikidata_id)
-        clickstream_data = self.fetch_clickstream_data(movie.title)
+    # def get(self, request, wikidata_id):
+    #     movie = get_object_or_404(Movie, wikidata_id=wikidata_id)
+    #     clickstream_data = self.fetch_clickstream_data(movie.title)
 
-        clickstream_json = json.dumps(clickstream_data, ensure_ascii=False)
+    #     clickstream_json = json.dumps(clickstream_data, ensure_ascii=False)
 
-        return render(request, 'view2.html', {
-            'movie': movie, 
-            'clickstream_data': clickstream_data,
-            'clickstream_json': clickstream_json
-        })
+    #     return render(request, 'view2.html', {
+    #         'movie': movie, 
+    #         'clickstream_data': clickstream_data,
+    #         'clickstream_json': clickstream_json
+    #     })
 
     def fetch_clickstream_data(self, movie_title):
         chrome_options = Options()

@@ -12,7 +12,7 @@
             text-align: center;
             margin-top: 50px;
             font-family: 'Saira Condensed', sans-serif;
-            overflow: hidden;  
+            overflow: hidden; 
             }
 
         .background {
@@ -25,7 +25,7 @@
             left: 0;
             z-index: -1;
             background-size: cover;
-            opacity: 0.9;
+            opacity: 0.8;
         }
         .outer-scratch, .inner-scratch {
             height: inherit;
@@ -183,7 +183,7 @@
         .wrap{
             width: 20%;
             position: absolute;
-            top: 20%;
+            top: 23%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
@@ -191,7 +191,7 @@
         .content {
                 position: absolute;
                 text-align: left;
-                top: 35%;
+                top: 40%;
                 left: 50%;
                 transform: translate(-50%, -10%);
                 height: 70vh;
@@ -205,6 +205,20 @@
                 color:#DB9F18;
                 text-decoration: none;
             }
+
+        .filter {
+            margin-top: 20px;
+            color: white;
+            font-size: 20px; 
+            font-weight: bold;
+        }
+
+        .number-of-results {
+            color: white;
+            font-size: 20px; 
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
 
 
         /* Film Animations */
@@ -397,10 +411,22 @@
                  <i class="fa fa-search"></i>
               </button>
             </div>
+            <div class="filter">
+                <label for="review_score_filter">Review Score:</label>
+                <input type="range" id="review_score_filter" name="review_score_filter" min="0" max="100">
+                <span id="scoreValue">50%</span>
+            </div>
+            <div class="number-of-results">
+                <label for="num_results">Liczba wyników:</label>
+                <select name="num_results" id="num_results">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
          </div>
-
     </form>
-
 
 <div class="content">
     {% if results %}
@@ -419,6 +445,14 @@
     <h3>No results</h3>
     {% endif %}
 </div>
+<script>
+    var slider = document.getElementById("review_score_filter");
+    var output = document.getElementById("scoreValue");
+    output.innerHTML = slider.value + '%';
 
+    slider.oninput = function() {
+        output.innerHTML = this.value + '%';
+    }
+</script>
 </body>
 </html>
