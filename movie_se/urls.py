@@ -23,4 +23,5 @@ urlpatterns = [
     path('movie_search/', MovieSearchView.as_view(), name='movie_search'),
     path('', MovieSearchView.as_view(), name='view1'),
     path('info/<str:wikidata_id>/', MovieInfoView.as_view(), name='view2'),
+    #path('tfidf/', TfidfView.as_view(), name='tfidf'),
 ]
